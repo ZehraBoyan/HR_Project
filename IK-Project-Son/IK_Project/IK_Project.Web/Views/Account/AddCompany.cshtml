@@ -1,0 +1,104 @@
+﻿@model CompanyWithPersonelDto
+
+@{
+    ViewData["Title"] = "Add Company Page";
+}
+
+<div class="col-lg-6 offset-3">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title">
+                <p class="text-center text-info">Update User</p>
+            </div>
+        </div>
+        <div class="card-body">
+            <!-- Credit Card -->
+            <div id="pay-invoice">
+                <div class="card-body">
+
+
+                    <form asp-action="AddCompany" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label text-info"> Company Name</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label text-info">Company Title </label>
+                            <select id ="Title" >
+                                <option value="0">Anonymous</option>
+                                <option value="1">Limited</option>
+                                <option value="2">Commandite</option>
+
+                            </select>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MersisNumber" class="control-label text-info">Mersis No</label>
+                            <input asp-for="MersisNumber" class="form-control" />
+                            <span asp-validation-for="MersisNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TaxNumber" class="control-label text-info">Tax No</label>
+                            <input asp-for="TaxNumber" class="form-control" />
+                            <span asp-validation-for="TaxNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="TaxAdministration" class="control-label text-info">Tax Administration</label>
+                            <input asp-for="TaxAdministration" class="form-control" />
+                            <span asp-validation-for="TaxAdministration" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PhoneNumber" class="control-label text-info"> Company Phone</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Address" class="control-label text-info"> Address</label>
+                            <input asp-for="Address" class="form-control" />
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Email" class="control-label text-info"> Company Mail</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="NumberOfEmployees" class="control-label text-info">Number of Employees</label>
+                            <input asp-for="NumberOfEmployees" class="form-control" />
+                            <span asp-validation-for="NumberOfEmployees" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="FoundationYear" class="control-label text-info"> Foundation Year</label>
+                            <input asp-for="FoundationYear" class="form-control" />
+                            <span asp-validation-for="FoundationYear" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PersonelId" class="control-label text-info">Company Manager</label>
+                            @*<select id="Personels">*@
+                            @Html.DropDownList("PersonelId",new SelectList(Model.Personels,"Id","FirstName"),"Select Personel",new { @class="form-control" })
+                            @*</select>*@
+                            <span asp-validation-for="PersonelId" class="text-danger"></span>
+                        </div>
+
+                        <button type="submit" class="btn btn-lg btn-info btn-block">
+                            <i class="fa fa-magic"></i>&nbsp;
+                            <span id="payment-button-amount">Add</span>
+                            <span id="payment-button-sending" style="display:none;">Sending…</span>
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="col text-center">
+                <a class="text-info" asp-action="Index"><i class="fa fa-mail-reply"></i>&nbsp; Back to Home Page</a>
+            </div>
+        </div>
+    </div> <!-- .card -->
+
+</div><!--/.col-->

@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "IK_Project.Service": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:55266;http://localhost:55269"
+    }
+  }
+}

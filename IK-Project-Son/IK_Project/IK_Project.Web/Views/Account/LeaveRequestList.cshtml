@@ -1,0 +1,71 @@
+﻿@using IK_Project.Entities;
+@model PersonelDTO
+
+@{
+    ViewData["Title"] = "LeaveRequestList";
+}
+
+<h1>Leave Request List</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Leave Type
+            </th>
+            <th>
+                Request Date
+            </th>
+            <th>
+                Start Date
+            </th>
+            <th>
+                End Date
+            </th>
+            <th>
+                Number Of Leave Days
+            </th>
+            <th>
+                Response Date
+            </th>
+            <th>
+                Status
+            </th>
+            
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Leaves) {
+        <tr>
+            <td>
+                @item.LeaveType
+            </td>
+            <td>
+                @item.RequestDate
+            </td>
+            <td>
+                @item.StartDate
+            </td>
+            <td>
+                @item.EndDate
+            </td>
+            <td>
+                @item.NumberOfLeaveDays
+            </td>
+            <td>
+                @item.ResponseDate
+            </td>
+            <td>
+                @item.Status
+            </td>
+            
+            
+        </tr>
+}
+    </tbody>
+</table>
+
+<td>
+    <a asp-controller="Leave" asp-action="LeaveRequest"> Add New Leave Request</a>
+</td>

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PersonelDTO>
+
+@{
+    ViewData["Title"] = "Managers List";
+}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Managers List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Managers List</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                    <th>Password</th>
+                    <th>Salary</th>
+                    <th>Address</th>
+                    <th>Company Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.FirstName</td>
+                        <td>@item.LastName</td>
+                        <td>@item.Email</td>
+                        <td>@item.Password</td>
+                        <td>@item.Salary</td>
+                        <td>@item.Address</td>
+                        <td>@item.CompanyName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

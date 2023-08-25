@@ -1,0 +1,198 @@
+﻿@using IK_Project.Entities;
+@using IK_Project.Entities.Enums;
+@using IK_Project.Web.Models.ViewModels;
+@using IK_Project.Core.Enums;
+
+@model LeaveRequestVM
+
+@{
+	List<LeaveType> leaveTypes = ViewBag.SelectList;
+}
+@{
+	ViewData["Title"] = "LeaveRequest";
+}
+
+<form method="post" asp-controller="Account" asp-action="LeaveRequest">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<span class="login100-form-title" style="color:dodgerblue">
+		Add Leave Request
+	</span>
+
+	<div>
+		<br /><p class="text-warning">Notification!</p>
+	</div>
+
+	<p class="text-danger">If you cannot see the type of leave you wish to request in the leave type list, please check your leave request list. If you have a leave type in "Pending" status, you cannot make a request for that leave type!</p>
+
+
+	<div class="wrap-input100 validate-input">
+		<br /><label asp-for="Leave.LeaveType">Leave Type</label><br />
+		<select asp-for="Leave.LeaveType" id="Leave_LeaveType" onchange="updateSelectableDays()">
+			@foreach (var leaveType in leaveTypes)
+			{
+				if (Model.Personel.Gender == IK_Project.Core.Enums.Gender.Male)
+				{
+					if ((LeaveType)(leaveType) != LeaveType.Maternity)
+					{
+									<option value="@leaveType">@leaveType</option>
+					}
+				}
+				else if (Model.Personel.Gender == Gender.Female)
+				{
+					if ((LeaveType)leaveType != LeaveType.Paternity)
+					{
+									<option value="@leaveType">@leaveType</option>
+					}
+				}
+			}
+		</select>
+		<div >
+			<p id="selectableDay" class="text-success">Selectable Business Day: </p>
+		</div>
+	</div>
+	<span asp-validation-for="Leave.LeaveType" class="text-danger"></span>
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="Leave.StartDate">Start Date</label><br />
+		<input id="startDate" type="date" asp-for="Leave.StartDate"/>
+	</div>
+	<span asp-validation-for="Leave.StartDate" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="Leave.EndDate">End Date</label><br />
+		<input id="endDate" type="date" asp-for="Leave.EndDate"/>
+	</div>
+	<span asp-validation-for="Leave.EndDate" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="Leave.NumberOfLeaveDays">Number Of Leave Days</label><br />
+		<input id="dayCount" type="text" asp-for="Leave.NumberOfLeaveDays" readonly/>
+	</div>
+	<span asp-validation-for="Leave.StartDate" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<input type="hidden" asp-for="Personel.Id" readonly />
+	</div>
+
+	<div class="container-login100-form-btn">
+		<button class="login100-form-btn" type="submit" id="submitBtn">
+			Request Leave
+		</button>
+	</div>
+</form>
+<script>
+	var today = new Date();
+
+	var year = today.getFullYear();
+	var month = String(today.getMonth() + 1).padStart(2, '0');
+	var day = String(today.getDate()).padStart(2, '0');
+	var formattedDate = year + '-' + month + '-' + day;
+
+	document.getElementById('startDate').value = formattedDate;
+	document.getElementById('endDate').value = formattedDate;
+</script>
+<script>
+	function calculateBusinessDays() {
+		var startDate = new Date(document.getElementById('startDate').value);
+		var endDate = new Date(document.getElementById('endDate').value);
+		var businessDays = 0;
+
+
+		if (!startDate) {
+			startDate = new Date();
+			document.getElementById('startDate').valueAsDate = startDate;
+		}
+
+		if (!endDate) {
+			endDate = new Date();
+			document.getElementById('endDate').valueAsDate = endDate;
+		}
+
+
+		if (endDate < startDate) {
+			document.getElementById('endDate').value = document.getElementById('startDate').value;
+			endDate = startDate;
+		}
+
+		var currentDate = new Date(startDate);
+
+		while (currentDate <= endDate) {
+			var dayOfWeek = currentDate.getDay();
+			if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+				businessDays++;
+			}
+
+			currentDate.setDate(currentDate.getDate() + 1);
+		}
+
+		document.getElementById("dayCount").value = businessDays;
+
+
+		var selectableDays = parseInt(document.getElementById("selectableDay").textContent.split(": ")[1]);
+		var numberOfLeaveDays = parseInt(document.getElementById("dayCount").value);
+
+
+		var button = document.getElementById("submitBtn");
+		if (selectableDays < numberOfLeaveDays || numberOfLeaveDays < 1) {
+			button.disabled = true;
+		} else {
+			button.disabled = false;
+		}
+	}
+
+	document.addEventListener('DOMContentLoaded', calculateBusinessDays);
+
+	document.getElementById('startDate').addEventListener('change', calculateBusinessDays);
+	document.getElementById('endDate').addEventListener('change', calculateBusinessDays);
+</script>
+
+<script>
+
+	var annualLeaveEntitlement = @Json.Serialize(Model.Personel.AnnualLeaveEntitlement);
+	var usedAnnualLeaveDays = @Json.Serialize(Model.Personel.UsedAnnualLeaveDays);
+
+
+	if (usedAnnualLeaveDays === null || usedAnnualLeaveDays === "") {
+		usedAnnualLeaveDays = 0;
+	}
+
+	function updateSelectableDays() {
+		var selectedLeaveType = document.getElementById("Leave_LeaveType").value;
+
+		if (selectedLeaveType === "Annual") {
+			var selectableDays = annualLeaveEntitlement - usedAnnualLeaveDays;
+
+			document.getElementById("selectableDay").innerHTML = "Selectable Business Day: " + selectableDays;
+		}
+		else if (selectedLeaveType === "Maternity") {
+			var selectableDays = 80;
+
+			document.getElementById("selectableDay").innerHTML = "Selectable Business Day: " + selectableDays;
+		}
+		else if (selectedLeaveType === "Paternity") {
+			var selectableDays = 5;
+
+			document.getElementById("selectableDay").innerHTML = "Selectable Business Day: " + selectableDays;
+		}
+		else if (selectedLeaveType === "Death") {
+			var selectableDays = 3;
+
+			document.getElementById("selectableDay").innerHTML = "Selectable Business Day: " + selectableDays;
+		}
+		else if (selectedLeaveType === "Marriage") {
+			var selectableDays = 3;
+
+			document.getElementById("selectableDay").innerHTML = "Selectable Business Day: " + selectableDays;
+		}
+		else if (selectedLeaveType === "Excuse") {
+			document.getElementById("selectableDay").innerHTML = "You can communicate your request based on the number of days you desire.";
+		}
+	}
+	document.addEventListener('DOMContentLoaded', updateSelectableDays);
+	document.getElementById("Leave_LeaveType").addEventListener("change", updateSelectableDays);
+	document.getElementById("Leave_LeaveType").addEventListener("change", calculateBusinessDays);
+</script>
+

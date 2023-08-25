@@ -1,0 +1,84 @@
+﻿@model PersonelDTO
+@using IK_Project.Core.Enums
+
+
+
+@{
+    ViewData["Title"] = "Personel Home Page";
+
+}
+
+<div class="card">
+    <div class="row no-gutters">
+        <div class="col-md-4">
+            <img src="~/images/@Model.Photo" class="card-img" alt="User Photo" style="height:420px; width:390px; margin-top:12px; margin-left:10px;">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <div style="width:400px;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col" style="color:dimgrey">Personel </br Informations</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">First Name :</th>
+                                <td class="text-info">@Model.FirstName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Last Name :</th>
+                                <td class="text-info">@Model.LastName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">SecondLastName :</th>
+                                <td class="text-info">@Model.SecondLastName</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Department :</th>
+                                <td class="text-info">@Model.Department</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Occupation :</th>
+                                <td class="text-info">@Model.Occupation</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Address :</th>
+                                <td class="text-info">@Model.Address</td>
+                            </tr>
+                        </tbody>
+                        
+
+                    </table>
+
+                    <div class="btn-group">
+                        @if (Model.PersonStatus == IK_Project.Core.Enums.PersonStatus.admin)
+                        {
+                            <a asp-controller="Account" asp-action="CompanyList" class="btn btn-outline-success"><i class="fa fa-building-o"></i>&nbsp; Company List</a>
+                            <a asp-controller="Account" asp-action="ManagersList" asp-route-id="@Model.Id" class="btn btn-outline-success"><i class="fa fa-building-o"></i>&nbsp; ManagerList</a>
+                            <a asp-controller="Account" asp-action="AddCompany" asp-route-id="@Model.Id" class="btn btn-outline-danger m-1"><i class="fa fa-magic"></i>&nbsp; AddCompany</a>
+                            <a asp-controller="Personel" asp-action="AddPersonel"  class="btn btn-outline-danger m-1"><i class="fa fa-magic"></i>&nbsp; Add Personel</a>
+                        }
+                        else if (Model.PersonStatus == IK_Project.Core.Enums.PersonStatus.staff || Model.PersonStatus==IK_Project.Core.Enums.PersonStatus.manager)
+                        {
+                            <a asp-controller="Account" asp-action="PersonelDetails" asp-route-id="@Model.Id" class="btn btn-outline-success"><i class="fa fa-building-o"></i>&nbsp; Details</a>
+                            <a asp-controller="Account" asp-action="PersonelUpdate" asp-route-id="@Model.Id" class="btn btn-outline-success m-1"><i class="fa fa-magic"></i>&nbsp; Update</a>
+                            <a asp-controller="Account" asp-action="ExpenseRequest" asp-route-id="@Model.Id" class="btn btn-outline-success m-1"><i class="fa fa-magic"></i>&nbsp; Create Request</a>
+                            <a asp-controller="Account" asp-action="ExpenseRequestList" asp-route-id="@Model.Id" class="btn btn-outline-success m-1"><i class="fa fa-magic"></i>&nbsp; Expense Request List</a>
+                            <a asp-controller="Account" asp-action="LeaveRequestList" asp-route-id="@Model.Id" class="btn btn-outline-success m-1"><i class="fa fa-magic"></i>&nbsp; Leave Request List</a>
+                            <a asp-controller="Account" asp-action="LeaveRequest" asp-route-id="@Model.Id" class="btn btn-outline-success m-1"><i class="fa fa-magic"></i>&nbsp; Leave Request</a>
+                        }
+                    </div>
+
+                </div>
+                
+                
+          
+                
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,94 @@
+﻿@using IK_Project.Web.Models.ViewModels
+@using IK_Project.Entities.Enums
+@model ExpenseRequestVM
+
+@{
+	List<ExpenseRequestVM> expenseTypes = ViewBag.SelectList;
+}
+
+@{
+
+	ViewData["Title"] = "ExpenseRequest";
+
+
+}
+
+<h1>ExpenseRequest</h1>
+<form method="post" asp-controller="Account" asp-action="ExpenseRequest">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+	<span class="login100-form-title" style="color:dodgerblue">
+		Add Expense Request
+	</span>
+
+	<div>
+		<br /><p class="text-warning">Notification!</p>
+	</div>
+
+	<p class="text-danger">If the required category is not available for your spending requests, you can choose other</p>
+
+	<div class="wrap-input100 validate-input">
+		<br /><label asp-for="ExpenseRequest.ExpenseType">Expense Type</label><br />
+		<select asp-for="ExpenseRequest.ExpenseType" id="Expense_ExpenseType">
+			<option> @ExpenseType.Accomodation </option>
+			<option> @ExpenseType.Transport </option>
+			<option> @ExpenseType.Food </option>
+			<option> @ExpenseType.Other </option>
+		</select>
+	</div>
+	<span asp-validation-for="ExpenseRequest.ExpenseType" class="text-danger"></span>
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="ExpenseRequest.RequestDate">Expense Date</label>
+		<input id="requestDate" type="date" asp-for="ExpenseRequest.RequestDate" />
+	</div>
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="ExpenseRequest.SpentAmount">Spent Amount</label><br />
+		<input id="spentAmount" type="text" asp-for="ExpenseRequest.SpentAmount" />
+	</div>
+	<span asp-validation-for="ExpenseRequest.SpentAmount" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="ExpenseRequest.Currency">Currency</label><br />
+		<select asp-for="ExpenseRequest.Currency" id="Expense_Currency">
+			<option> @Currency.Dollar </option>
+			<option> @Currency.TL</option>
+			<option> @Currency.Euro </option>
+		</select>
+	</div>
+	<span asp-validation-for="ExpenseRequest.Currency" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<label asp-for="ExpenseRequest.DocumentPath">Document</label>
+		<input id="document" type="file" name="document" accept=".pdf,.xlsx,.xls" />
+	</div>
+
+	<span asp-validation-for="ExpenseRequest.DocumentPath" class="text-danger"></span>
+	<br />
+
+	<div class="wrap-input100 validate-input">
+		<input type="hidden" asp-for="Personel.Id" readonly />
+	</div>
+
+	<div class="container-login100-form-btn">
+		<button class="login100-form-btn" type="submit" id="submitBtn">
+			Request Expense
+		</button>
+	</div>
+</form>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha512-XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+<script>
+	$(function () {
+		$("#requestDate").datepicker({
+			dateFormat: "dd/mm/yy",
+			changeMonth: true,
+			changeYear: true
+		});
+	});
+</script>
+}

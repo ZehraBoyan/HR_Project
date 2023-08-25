@@ -1,0 +1,65 @@
+﻿@using IK_Project.Entities;
+@model PersonelDTO
+
+@{
+    ViewData["Title"] = "ExpenseRequestList";
+}
+
+<h1>ExpenseRequestList</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Expense Type
+            </th>
+            <th>
+                Request Date
+            </th>
+            <th>
+                SpentAmount
+            </th>
+            <th>
+                Currency
+            </th>
+            <th>
+                DocumentPath
+            </th>
+            <th>
+                ApprovalStatus
+            </th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Expenses)
+        {
+            <tr>
+                <td>
+                    @item.ExpenseType
+                </td>
+                <td>
+                    @item.RequestDate
+                </td>
+                <td>
+                    @item.SpentAmount
+                </td>
+                <td>
+                    @item.Currency
+                </td>
+                <td>
+                    @item.DocumentPath
+                </td>
+                <td>
+                    @item.ApprovalStatus
+                </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+<td>
+    <a  asp-controller="ExpenseRequest" asp-action="ExpenseRequest"> Add New Expense Request</a>
+</td>
+
